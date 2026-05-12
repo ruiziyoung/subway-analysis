@@ -47,10 +47,10 @@ st.divider()
 st.header("📊 어떤 환승역이 가장 환승인원이 많을까?")
 
 sql_1 = """
-SELECT 환승역명, 
+SELECT 출발역명, 
        SUM(총환승인원) AS 총환승인원
 FROM 환승인원
-GROUP BY 환승역명
+GROUP BY 출발역명
 ORDER BY 총환승인원 DESC
 LIMIT 6;
 """
@@ -63,8 +63,8 @@ if df1 is not None:
     
     with col1:
         st.subheader("📍 환승역별 총환승인원 TOP 6")
-        # 차트를 그리기 위해 '환승역명'을 인덱스로 설정
-        chart_df1 = df1.set_index('환승역명')
+        # 차트를 그리기 위해 '출발역명'을 인덱스로 설정
+        chart_df1 = df1.set_index('출발역명')
         st.bar_chart(chart_df1, color="#1f77b4") # 깔끔한 파란색
         st.dataframe(df1, use_container_width=True) # 데이터 표 함께 출력
 
@@ -87,12 +87,12 @@ st.divider() # 구분선
 st.header("💼 총환승인원이 많은 환승역이 직장인 때문일까?")
 
 sql_2 = """
-SELECT 환승역명, 
-       혼잡도
+SELECT 출발역, 
+       통합혼잡도
 FROM 혼잡도
 WHERE 요일구분 = '평일'
-AND 시간 = 8
-ORDER BY 혼잡도 DESC
+AND 시간 = '8시00분'
+ORDER BY 통합혼잡도 DESC
 LIMIT 6;
 """
 
@@ -103,7 +103,7 @@ if df2 is not None:
     
     with col1:
         st.subheader("📍 평일 오전 8시 환승역별 혼잡도 TOP 6")
-        chart_df2 = df2.set_index('환승역명')
+        chart_df2 = df2.set_index('출발역')
         st.bar_chart(chart_df2, color="#ff7f0e") # 활기찬 주황색
         st.dataframe(df2, use_container_width=True)
 
@@ -126,12 +126,12 @@ st.divider()
 st.header("🎈 총환승인원이 많은 환승역은 놀러 오는 사람들이 많아서일까?")
 
 sql_3 = """
-SELECT 환승역명, 
-       혼잡도
+SELECT 출발역, 
+       통합혼잡도
 FROM 혼잡도
 WHERE 요일구분 = '토요일'
-AND 시간 = 14
-ORDER BY 혼잡도 DESC
+AND 시간 = '14시00분'
+ORDER BY 통합혼잡도 DESC
 LIMIT 6;
 """
 
@@ -142,7 +142,7 @@ if df3 is not None:
     
     with col1:
         st.subheader("📍 토요일 오후 14시 환승역별 혼잡도 TOP 6")
-        chart_df3 = df3.set_index('환승역명')
+        chart_df3 = df3.set_index('출발역')
         st.bar_chart(chart_df3, color="#2ca02c") # 산뜻한 녹색
         st.dataframe(df3, use_container_width=True)
 
